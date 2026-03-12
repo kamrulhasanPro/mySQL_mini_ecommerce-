@@ -8,11 +8,15 @@ const baseURl = "http://localhost:3000";
 */
 export async function getProducts() {
   try {
-    const products = await fetch(`${baseURl}/api/products`);
-    return products.json();
-  } catch (error) {
+    const res = await fetch(`${baseURl}/api/products`);
+
+    const products = await res.json();
+
+    if (!res.ok) throw new Error(products.error || "Something went wrong");
+    return products;
+  } catch (err) {
     return {
-      message: "face error",
+      error: err.message,
     };
   }
 }
@@ -23,11 +27,33 @@ export async function getProducts() {
 */
 export async function getProductById(id) {
   try {
-    const product = await fetch(`${baseURl}/api/products/${id}`);
-    return product.json();
-  } catch (error) {
+    const res = await fetch(`${baseURl}/api/products/${id}`);
+
+    const product = await res.json();
+
+    if (!res.ok) throw new Error(product.error || "Something went wrong");
+
+    return product;
+  } catch (err) {
     return {
-      message: "face error",
+      error: err.message,
     };
+  }
+}
+
+export async function postProduct(product) {
+  try {
+    const res = await fetch(`${baseURl}/api/products`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(product),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || "Something went wrong");
+    return data;
+  } catch (err) {
+    return { error: err.message };
   }
 }
