@@ -41,6 +41,10 @@ export async function getProductById(id) {
   }
 }
 
+/** 
+- Add Product 
+- products.action.js
+*/
 export async function postProduct(product) {
   try {
     const res = await fetch(`${baseURl}/api/products`, {
@@ -55,5 +59,48 @@ export async function postProduct(product) {
     return data;
   } catch (err) {
     return { error: err.message };
+  }
+}
+
+/** 
+- Update Product 
+- products.action.js
+*/
+export async function updateProduct(product, id) {
+  try {
+    const res = await fetch(`${baseURl}/api/products/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(product),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || "Something went wrong");
+    return data;
+  } catch (err) {
+    return { error: err.message };
+  }
+}
+
+/** 
+- Delete Product By Id 
+- products.action.js
+*/
+export async function deleteProductById(id) {
+  console.log(id);
+  try {
+    const res = await fetch(`${baseURl}/api/products/${id}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      return { success: true };
+    }
+    return { success: false };
+  } catch (err) {
+    return {
+      error: err.message,
+    };
   }
 }

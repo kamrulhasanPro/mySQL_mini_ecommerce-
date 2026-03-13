@@ -1,4 +1,5 @@
 import Link from "next/link";
+import DeleteButton from "./DeleteButton";
 
 export default function ProductCard({ product }) {
   const { id, name, price, stock, created_at } = product;
@@ -23,7 +24,10 @@ export default function ProductCard({ product }) {
 
   return (
     <div className="border border-gray-700 rounded-xl p-4 flex flex-col gap-2 bg-gray-900 hover:border-gray-500 transition-colors">
-      <div className="text-xs text-gray-500">ID #{id}</div>
+      <div className="flex items-center justify-between">
+        <span className="text-xs text-gray-500">ID #{id}</span>
+        <DeleteButton id={id}/>
+      </div>
 
       <Link
         href={`/products/${id}`}
